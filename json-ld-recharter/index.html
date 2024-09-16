@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+ <head>
+  <meta charset=UTF-8>
+  <meta content="width=device-width" name="viewport">
+  <title>CBOR-LD, YAML-LD & the JSON-LD Recharter</title>
+  <link rel="stylesheet" href="../Templates/slides.css">
+  <link rel="stylesheet" href="highlight-js/styles/atom-one-dark.css">
+  <script src="highlight-js/highlight.min.js"></script>
+  <script src="highlight-js/languages/json.min.js"></script>
+  <style>
+    /* shut off template <pre> styling */
+    .slide pre {
+      color: inherit;
+      background: none;
+    }
+    .slide pre > code {
+      background: #282c34;
+    }
+  </style>
+  <!-- To use the b6+ framework, include this: -->
+  <script src="../Templates/b6plus.js"></script>
+  <!-- To use the Shower framework, remove b6plus above and add these two: -->
+  <!--   <script src="../Templates/shower.js"></script>         -->
+  <!--   <script src="../Templates/iframe-fixup.js"></script>   -->
+ </head>
+ <body class="shower fade-in duration=15">
+
+  <!--=============================================================
+			    Example slides
+  ==============================================================-->
+
+  <!-- Remove this element if you don't want a progress bar: -->
+  <div class=progress></div>
+
+  <!-- Remove this element if you don't want the remaining time in
+       index mode and on the 2nd screen. If you keep it, you may want
+       to add the class "duration=n" on BODY, where n is the initial
+       number of minutes on the clock. Default is 30. -->
+  <div class=clock></div>
+
+  <!-- Alternative: Show also real time and elapsed time. -->
+  <!-- <div class=fullclock></div> -->
+
+  <!-- What a screen reader should say on leaving slide mode,
+       instead of the default ‘Stopped.’ -->
+  <div role=region aria-live=assertive>
+    Leaving slide mode.
+  </div>
+
+
+  <section class="slide cover clear" id="cover">
+   <h1>CBOR-LD, YAML-LD & the JSON-LD Recharter</h1>
+   <address>Benjamin Young, Wes Smith, Gregg Kellogg, Anatoly Scherbakov</address>
+   <p>TPAC 2024<br>
+     Anaheim CA, USA<br>
+     hybrid meeting<br>
+     23–27 SEPTEMBER 2024</p>
+  </section>
+
+  <section class="slide" id="early-days">
+   <h2>History - early days</h2>
+   <h3>2014 - RDF Working Group</h3>
+   <ul>
+    <li><a href="https://www.w3.org/TR/json-ld1/">JSON-LD v1.0</li>
+    <li><a href="https://www.w3.org/TR/json-ld-api1/">JSON-LD API v1.0</a></li>
+   </ul>
+
+   <h3>2018-2020 - JSON-LD WG</h3>
+   <ul>
+    <li><a href="https://www.w3.org/TR/json-ld11/">JSON-LD v1.1</a></li>
+    <li><a href="https://www.w3.org/TR/json-ld11-api/">JSON-LD API v1.1</a></li>
+    <li><a href="https://www.w3.org/TR/json-ld11-framing/">JSON-LD Framing v1.1</a>
+      (based on JSON-LD CG work)</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="current-wg">
+   <h2>History - current WG</h2>
+   <h3>2020-2023 (extended to 2025) - JSON-LD WG (maintenance mode)</h3>
+   <ul>
+    <li><a href="https://www.w3.org/TR/json-ld11/">JSON-LD v1.1</a></li>
+    <li><a href="https://www.w3.org/TR/json-ld11-api/">JSON-LD API v1.1</a></li>
+    <li><a href="https://www.w3.org/TR/json-ld11-framing/">JSON-LD Framing v1.1</a></li>
+   </ul>
+  </section>
+
+  <section class="slide" id="recharter">
+   <h3>2025-2027 - Recharter for new work</h3>
+   <ul>
+    <li>JSON-LD, API, Framing v1.1 (maintain)</li>
+    <li>JSON-LD, API, Framing v1.2 (new)</li>
+    <li>CBOR-LD (new)</li>
+    <li>YAML-LD (new)</li>
+    <li>Notes
+      <ul>
+        <li>Multiple languages in JSON</li>
+        <li>Content hash provision in context URLs</li>
+      </ul>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cbor-ld">
+    <!-- TODO: Wes to fill in -->
+   <h2>CBOR-LD</h2>
+   <p><strong>C</strong>oncise <strong>B</strong>inary <strong>O</strong>bject
+    <strong>R</strong>epresentation for <strong>L</strong>inked
+    <strong>D</strong>ata</p>
+   <p>Enables small data use cases: QR codes, Web of Things, etc.</p>
+   <ul>
+    <li>Compression ratios up to 40% better than gzip/zlib.</li>
+    <li>Works on any compacted JSON-LD Document.</li>
+    <li>Data Integrity signatures do not need to change.</li>
+    <li>Extensible registry-based codec model.</li>
+    <li>Application-specific codecs.</li>
+    <li>"Practical" set of design trade-offs.</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cbor-ld-how">
+   <h2>CBOR-LD - How?</h2>
+   <ul>
+    <li>Reduce data duplication</li>
+    <li>Build compression dictionary using <code>@context</code> (maps terms to numbers)
+      <ul>
+        <li>Globally linkable, industry-standard dictionary</li>
+        <li>No need to include the dictionary in the data</li>
+      </ul>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cbor-compression-table">
+   <h2>CBOR-LD Compression Table</h2>
+   <table>
+    <tr><td colspan="2" style="text-align: center;">CBOR-LD Compression Dictionary for
+    https://www.w3.org/2018/credentials/v1
+    </td></tr>
+    <tr><td><code>@context</code></td><td>1</td></tr>
+    <tr><td><code>issuanceData</code></td><td>102</td></tr>
+    <tr><td><code>issuer</code></td><td>103</td></tr>
+    <tr><td><code>VerifiableCredential</code></td><td>104</td></tr>
+    <tr><td colspan="2">...etc...</td></tr>
+   </table>
+  </section>
+
+  <section class="slide" id="cbor-ld-initial-example">
+   <h2>CBOR-LD - Example</h2>
+   <div class="columns">
+    <section>
+      <h3>JSON-LD</h3>
+      <pre style="font-size: 10%"><code>{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://w3id.org/vc-barcodes/v1",
+    "https://w3id.org/utopia/v2"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OpticalBarcodeCredential"
+  ],
+  "credentialSubject": {
+    "type": "AamvaDriversLicenseScannableInformation",
+    "protectedComponentIndex": "uggAg"
+  },
+  "issuer": "did:key:...",
+  "credentialStatus": {
+    "type": "TerseBitstringStatusListEntry",
+    "terseStatusListBaseUrl":
+      "https://example.com/statuses/abc/status-lists",
+    "terseStatusListIndex": 3851559041
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:...",
+    "cryptosuite": "ecdsa-xi-2023",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z4…"
+  }
+}</code></pre>
+    </section>
+    <section>
+      <h3>CBOR-LD</h3>
+      <pre style="font-size: 10%"><code>1636(
+  {
+    1: [32768, 32769, 32770],
+    157: [118, 164],
+    184: {
+      156: 166,
+      206: 178,
+      208: 3851559041
+    },
+    186: {
+      156: 160,
+      168: h'...'
+    },
+    190: 170,
+    192: {
+      156: 108,
+      214: 4,
+      224: 230,
+      226: h'...',
+      228: 172
+    }
+  }
+)</code></pre>
+    </section>
+   </div>
+  </section>
+
+  <section class="slide" id="cbor-ld-utopia-vc">
+    <h2>Utopia Driver's License</h2>
+    <a style="font-size: xx-small;" href="https://w3c-ccg.github.io/vc-barcodes/#example-a-json-ld-vc-for-a-utopia-driver-s-license-vcb">
+      https://w3c-ccg.github.io/vc-barcodes/#example-a-json-ld-vc-for-a-utopia-driver-s-license-vcb
+    </a>
+    <pre style="font-size: 10%;"><code>{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://w3id.org/vc-barcodes/v1",
+    "https://w3id.org/utopia/v2"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OpticalBarcodeCredential"
+  ],
+  "credentialSubject": {
+    "type": "AamvaDriversLicenseScannableInformation",
+    "protectedComponentIndex": "uggAg"
+  },
+  "issuer": "did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj",
+  "credentialStatus": {
+    "type": "TerseBitstringStatusListEntry",
+    "terseStatusListBaseUrl": "https://sandbox.platform.veres.dev/statuses/z19rJ4oGrbFCqf3cNTVDHSbNd/status-lists",
+    "terseStatusListIndex": 3851559041
+  },
+  "proof": {
+    "type": "DataIntegrityProof",
+    "verificationMethod": "did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj#zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj",
+    "cryptosuite": "ecdsa-xi-2023",
+    "proofPurpose": "assertionMethod",
+    "proofValue": "z4g6G3dAZhhtPxPWgFvkiRv7krtCaeJxjokvL46fchAFCXEY3FeX2vn46MDgBaw779g1E1jswZJxxreZDCrtHg2qH"
+  }
+}</code></pre>
+  </section>
+
+  <section class="slide" id="cbor-ld-">
+    <h2>CBOR-LD encoding parameters</h2>
+    <a style="font-size: xx-small;" href="https://w3c-ccg.github.io/vc-barcodes/#example-cbor-ld-encoding-parameters">
+      https://w3c-ccg.github.io/vc-barcodes/#example-cbor-ld-encoding-parameters
+    </a>
+    <pre style="font-size: 10%;"><code>registryEntryId: 100
+typeTable:
+{
+  "context":
+    {
+      "https://www.w3.org/ns/credentials/v2": 32768,
+      "https://w3id.org/vc-barcodes/v1": 32769,
+      "https://w3id.org/utopia/v2": 32770
+    },
+
+  "https://w3id.org/security#cryptosuiteString":
+    {
+      "ecdsa-rdfc-2019": 1,
+      "ecdsa-sd-2023": 2,
+      "eddsa-rdfc-2022": 3,
+      "ecdsa-xi-2023": 4
+    }
+}</code></pre>
+  </section>
+
+  <section class="slide" id="cbor-ld-">
+    <h2>The term to ID map created by CBOR-LD when compressing a Utopia DL.</h2>
+    <a style="font-size: xx-small;" href="https://w3c-ccg.github.io/vc-barcodes/#example-the-term-to-id-map-created-by-cbor-ld-when-compressing-a-utopia-dl">
+      https://w3c-ccg.github.io/vc-barcodes/#example-the-term-to-id-map-created-by-cbor-ld-when-compressing-a-utopia-dl
+    </a>
+    <pre style="font-size: 10%;"><code>Map(97) {
+  '@context' => 0,
+  '@type' => 2,
+  '@id' => 4,
+  '@value' => 6,
+  '@direction' => 8,
+  '@graph' => 10,
+  '@included' => 12,
+  '@index' => 14,
+  '@json' => 16,
+  '@language' => 18,
+  '@list' => 20,
+  '@nest' => 22,
+  '@reverse' => 24,
+  '@base' => 26,
+  '@container' => 28,
+  '@default' => 30,
+  '@embed' => 32,
+  '@explicit' => 34,
+  '@none' => 36,
+  '@omitDefault' => 38,
+  '@prefix' => 40,
+  '@preserve' => 42,
+  '@protected' => 44,
+  '@requireAll' => 46,
+  '@set' => 48,
+  '@version' => 50,
+  '@vocab' => 52,
+  '...' => 100,
+  'BitstringStatusList' => 102,
+  'BitstringStatusListCredential' => 104,
+  'BitstringStatusListEntry' => 106,
+  'DataIntegrityProof' => 108,
+  'EnvelopedVerifiableCredential' => 110,
+  'EnvelopedVerifiablePresentation' => 112,
+  'JsonSchema' => 114,
+  'JsonSchemaCredential' => 116,
+  'VerifiableCredential' => 118,
+  'VerifiablePresentation' => 120,
+  '_sd' => 122,
+  '_sd_alg' => 124,
+  'aud' => 126,
+  'cnf' => 128,
+  'description' => 130,
+  'digestMultibase' => 132,
+  'digestSRI' => 134,
+  'exp' => 136,
+  'iat' => 138,
+  'id' => 140,
+  'iss' => 142,
+  'jku' => 144,
+  'kid' => 146,
+  'mediaType' => 148,
+  'name' => 150,
+  'nbf' => 152,
+  'sub' => 154,
+  'type' => 156,
+  'x5u' => 158,
+  'AamvaDriversLicenseScannableInformation' => 160,
+  'MachineReadableZone' => 162,
+  'OpticalBarcodeCredential' => 164,
+  'TerseBitstringStatusListEntry' => 166,
+  'protectedComponentIndex' => 168,
+  'did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj' => 170,
+  'did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj#zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj' => 172,
+  'did:key:zDnaeZSD9XcuULaS8qmgDUa6TMg2QjF9xABnZK42awDH3BEzj' => 174,
+  'did:key:zDnaeZSD9XcuULaS8qmgDUa6TMg2QjF9xABnZK42awDH3BEzj#zDnaeZSD9XcuULaS8qmgDUa6TMg2QjF9xABnZK42awDH3BEzj' => 176,
+  'https://sandbox.platform.veres.dev/statuses/z19rJ4oGrbFCqf3cNTVDHSbNd/status-lists' => 178,
+  'confidenceMethod' => 180,
+  'credentialSchema' => 182,
+  'credentialStatus' => 184,
+  'credentialSubject' => 186,
+  'evidence' => 188,
+  'issuer' => 190,
+  'proof' => 192,
+  'refreshService' => 194,
+  'relatedResource' => 196,
+  'renderMethod' => 198,
+  'termsOfUse' => 200,
+  'validFrom' => 202,
+  'validUntil' => 204,
+  'terseStatusListBaseUrl' => 206,
+  'terseStatusListIndex' => 208,
+  'challenge' => 210,
+  'created' => 212,
+  'cryptosuite' => 214,
+  'domain' => 216,
+  'expires' => 218,
+  'nonce' => 220,
+  'previousProof' => 222,
+  'proofPurpose' => 224,
+  'proofValue' => 226,
+  'verificationMethod' => 228,
+  'assertionMethod' => 230,
+  'authentication' => 232,
+  'capabilityDelegation' => 234,
+  'capabilityInvocation' => 236,
+  'keyAgreement' => 238
+}</code></pre>
+  </section>
+
+  <section class="slide" id="cbor-ld-">
+    <h2>A CBOR-LD compressed Utopia Driver's License VC</h2>
+    <a style="font-size: xx-small;" href="https://w3c-ccg.github.io/vc-barcodes/#example-a-cbor-ld-compressed-utopia-driver-s-license-vc">
+      https://w3c-ccg.github.io/vc-barcodes/#example-a-cbor-ld-compressed-utopia-driver-s-license-vc
+    </a>
+    <pre style="font-size: 10%;"><code>d90664a60183198000198001198002189d82187618a418b8a3189c18a618ce18b218d01ae592208118baa2189c18a018a8447582002018be18aa18c0a5189c186c18d60418e018e618e258417ab7c2e56b49e2cce62184ce26818e15a8b173164401b5d3bb93ffd6d2b5eb8f6ac0971502ae3dd49d17ec66528164034c912685b8111bc04cdc9ec13dbadd91cc18e418ac
+
+diagnostic:
+1636(
+  {
+    1: [32768, 32769, 32770],
+    157: [118, 164],
+    184: {156: 166, 206: 178, 208: 3851559041},
+    186: {156: 160, 168: h'75820020'},
+    190: 170,
+    192: {
+      156: 108,
+      214: 4,
+      224: 230,
+      226: h'7AB7C2E56B49E2CCE62184CE26818E15A8B173164401B5D3BB93FFD6D2B5EB8F6AC0971502AE3DD49D17EC66528164034C912685B8111BC04CDC9EC13DBADD91CC',
+      228: 172
+    }
+  }
+)</code></pre>
+  </section>
+
+  <section class="slide" id="cbor-ld-">
+    <h2>A Verifiable Ccredential Barcode (a PDF417) of the Utopia driver's license.</h2>
+    <img src="dl-barcode.png" alt="A PDF417 barcode representation of the CBOR-LD encoded Utopia Driver's License.">
+  </section>
+
+  <section class="slide" id="cbor-ld-road-ahead">
+   <h2>CBOR-LD - Road Ahead</h2>
+   <ul>
+    <li>Added to charter</li>
+    <li>CBOR-LD 1.0 Working Draft</li>
+    <li>Incorporate other work
+      <ul>
+        <li><a href="https://json-ld.github.io/cbor-ld-spec/">CBOR-LD 1.0</a>
+          - primary input from JSON-LD CG report</li>
+        <li><a href="https://w3c.github.io/json-ld-cbor/">JSON-LD in CBOR</a>
+          - alternate approach previously explored</li>
+        <li><a href="https://arxiv.org/abs/2407.04398">CBL: Compact Encoding of JSON-LD Data using CBOR and Bitmaps for Web of Things</a>
+          - community paper exploring alternative approaches</li>
+      </ul>
+    </li>
+    <li>Gather WG feedback/contribution/changes</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="yaml-ld">
+   <h2>YAML-LD</h2>
+   <ul>
+    <li>Enable human-friendly Linked Data
+      <ul>
+        <li>Stay compatible with JSON-LD for easy transformation</li>
+      </ul>
+    </li>
+    <li>CCG developed spec</li>
+    <li>Stable, but needs implementers</li>
+    <li>WG picking up to formalize and build test suite</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="multiple-languages-in-json">
+    <h2>Multiple languages in JSON</h2>
+    <ul>
+      <li>JSON-LD's Value Object pattern expressed "alone"</li>
+      <li>encourage implementations of Value Objects</li>
+      <li>encourage use in JSON documents that lack `@context`</li>
+      <li>create a referenceable spec/note for other specs</li>
+    </ul>
+  </section>
+
+  <section class="slide" id="content-hash-fragment-for-contexts">
+    <h2>Content hash fragment for context URLs</h2>
+    <ul>
+      <li><code>#hash=</code></li>
+      <li>optionally used by document loaders to verify equality of contexts</li>
+      <li>not strictly about HTTP</li>
+    </ul>
+  </section>
+
+  <section class="slide final clear cover" id="conclusion">
+   <h1>Thanks!</h1>
+   from <address>Benjamin Young, Wes Smith, Gregg Kellogg, Anatoly Scherbakov</address>
+  </section>
+
+  <footer class="long comment">
+   <address>Template created 11 December 2023 by <a
+   href="mailto:bert@w3.org">Bert Bos</a>.
+   This file last modified
+   $Date: 2024/07/31 23:21:04 $ by $Author: bbos $.</address>
+  </footer>
+  <script>hljs.highlightAll();</script>
+ </body>
+</html>
+<!-- Local Variables: -->
+<!-- sgml-basic-offset: 1 -->
+<!-- End: -->
