@@ -1,0 +1,327 @@
+<!DOCTYPE html>
+
+<html lang="en-us">
+ <head>
+  <meta charset=UTF-8>
+  <meta content="width=device-width" name="viewport">
+  <title>JSON-LD-star</title>
+  <link rel="stylesheet" href="../Templates/slides.css">
+  <link rel="stylesheet" href="highlight-js/styles/atom-one-dark.css">
+  <script src="highlight-js/highlight.min.js"></script>
+  <script src="highlight-js/languages/json.min.js"></script>
+  <style>
+    /* shut off template <pre> styling */
+    .slide pre {
+      color: inherit;
+      background: none;
+    }
+    .slide pre > code {
+      background: #282c34;
+    }
+  </style>
+  <!-- To use the b6+ framework, include this: -->
+  <script src="../Templates/b6plus.js"></script>
+  <!-- To use the Shower framework, remove b6plus above and add these two: -->
+  <!--   <script src="../Templates/shower.js"></script>         -->
+  <!--   <script src="../Templates/iframe-fixup.js"></script>   -->
+ </head>
+ <body class="shower fade-in duration=15">
+
+  <!--=============================================================
+			    Example slides
+  ==============================================================-->
+
+  <!-- Remove this element if you don't want a progress bar: -->
+  <div class=progress></div>
+
+  <!-- Remove this element if you don't want the remaining time in
+       index mode and on the 2nd screen. If you keep it, you may want
+       to add the class "duration=n" on BODY, where n is the initial
+       number of minutes on the clock. Default is 30. -->
+  <div class=clock></div>
+
+  <!-- Alternative: Show also real time and elapsed time. -->
+  <!-- <div class=fullclock></div> -->
+
+  <!-- What a screen reader should say on leaving slide mode,
+       instead of the default ‘Stopped.’ -->
+  <div role=region aria-live=assertive>
+    Leaving slide mode.
+  </div>
+
+
+  <section class="slide cover clear" id="cover">
+   <h1>JSON-LD-star</h1>
+   <address>Gregg Kellogg, Niklas Lindstöm, Pierre-Antoine Champin</address>
+   <p>TPAC 2024<br>
+     Anaheim CA, USA<br>
+     Joint JSON-LD RDF-star session<br>
+     24 SEPTEMBER 2024</p>
+  </section>
+
+  <section class="slide" id="history">
+   <h2>History</h2>
+   <h3>2021 – JSON-LD Community Group</h3>
+   <ul>
+    <li><a href="https://json-ld.github.io/json-ld-star/">JSON-LD-star</a>
+      (based on RDF-star Task Force report using quoted triples).
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cg-report-1">
+   <h3>CG Draft – Quoted Triples</h3>
+   <ul>
+    <li>Used structured <code>@id</code> value for Quoted Triple.
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+  "@context": {
+    "@base": "http://example.org/",
+    "@vocab": "http://example.org/"
+  },
+  "@id": {"@id": "bob", "age": 42},
+  "certainty": 0.8
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
+&lt;&lt; :bob :age 42 &gt;&gt; :certainty 0.8e0 .</code></pre></td>
+        </tr>
+      </table>
+    </li>
+    <li>Notes
+      <ul>
+        <li>Significant complication of the JSON-LD model</li>
+      </ul>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cg-report-2">
+   <h3>CG Draft – Annotations</h3>
+   <ul>
+    <li>Used structured <code>@annotation</code> value for annotations.
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+  "@context": {
+    "@base": "http://example.org/",
+    "@vocab": "http://example.org/"
+  },
+  "@id": "bob",
+  "age": {
+    "@value": 42,
+    "@annotation": {"certainty": 0.8}
+  }
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
+:bob :age 42 .
+&lt;&lt; :bob :age 42 &gt;&gt; :certainty 0.8e0 .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cg-report-3">
+   <h3>CG Draft – Reverse Reification</h3>
+   <ul>
+    <li>Reverse terms invert the s/o relationship.
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+  "@context": {
+    "@base": "http://example.org/",
+    "@vocab": "http://example.org/",
+    "knows": {"@type": "@id"},
+    "claimedBy": {
+      "@reverse": "http://example.org/claims",
+      "@type": "@id"
+    }
+  },
+  "@id": {"@id": "bob", "knows": "alice"},
+  "claimedBy": "alice"
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
+:alice :claims &lt;&lt; :bob :knows :alice >> .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cg-report-4">
+   <h3>CG Draft – Reversed Annotation</h3>
+   <ul>
+    <li>Allows annotating quoted triple as an object.
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+  "@context": {
+    ...
+  },
+  "@id": "bob",
+  "knows": {
+    "@id": "alice",
+    "@annotation": {
+      "accordingTo": "alice",
+      "claimedBy": "bob"
+    }
+  }
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
+:bob :knows :alice .
+&lt;&lt; :bob :knows :alice &gt;&gt; :accordingTo :alice .
+:bob :claims &lt;&lt; :bob :knows :alice &gt;&gt; .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="cg-report-5">
+   <h3>CG Draft – Other use cases</h3>
+   <ul>
+    <li>Deep Embedding</li>
+    <li>Mixing Annotations and Embedded Nodes</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="updates-for-rdf-star">
+   <h3>Updating to current RDF-star</h3>
+   <ul>
+    <li>Adds <code>@triple</code>, <code>@reifies</code> keywords.
+      <ul>
+        <li>Identifiers are not based on structured values of <code>@id</code>.</li>
+        <li>Triple terms use value of <code>@triple</code>, which should be rarely used in practice.</li>
+        <li><code>@triple</code> describes a single triple, much like the structured value of <code>@id</code> in the CG version.</li>
+      </ul>
+    </li>
+    <li>The use of <code>@annotatin</code> is largely unchanged.</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="triple-terms">
+   <h3>Triple Terms</h3>
+   <ul>
+    <li>At the most fundamental level, <code>@triple</code> is intended to encode a single triple with an @id and a single-valued property.
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+ "@context": {...},
+ "rdf:reifies": {
+   "@triple": {
+     "@id": "bob",
+     "age": 42
+   }
+ },
+ "certainty": 0.8
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>_:b0 rdf:reifies &lt;&lt;( :bob :age 42 ))&gt; ;
+     :certainty: 0.8 .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="reifying-triples">
+   <h3>Reifying Triples</h3>
+   <ul>
+    <li>The <code>@reifies</code> keyword can be used to compact this, and holds the potentially for reifying more than one triple:
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+ "@context": { ... },
+ “@id”: “reifier”,
+ "@reifies": {
+   "@id": "bob",
+   "age": 42
+ },
+ "certainty": 0.8
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:reifier rdf:reifies &lt;&lt;( :bob :age 42 ))>;
+  :certainty: 0.8 .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="annotation">
+   <h3>Annotation</h3>
+   <ul>
+    <li>The annotation syntax is similar to Turtle:
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+ "@context": { ... },
+ "@id": "bob",
+ "age": {
+   "@value": 42,
+   "@annotation": {
+     "@id": "_:anno",
+     "certainty": 0.8
+   }
+ }
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:bob :age 42 ~ _:anno {| :certainty  8.0E-1 |} .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="annotation">
+   <h3>Reification as alternative to Named Graph</h3>
+   <ul>
+    <li>Note that in the Reification example, the @refiies keyword acts much like <code>@graph</code>. If it were restated as follows, it would use the named graph syntax, which is common in Verifiable Claims.
+      <table>
+        <tr><th>JSON-LD</th><th>TriG</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+ "@context": { ... },
+ "@id": "reifier",
+ "@graph": {
+   "@id": "bob",
+   "age": 42
+ },
+ "certainty": 0.8
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:reifier :certainty 8.0E-1 .
+
+:reifier {
+ :bob :age 42 .
+}</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <footer class="long comment">
+   <address>Template created 11 December 2023 by <a
+   href="mailto:bert@w3.org">Bert Bos</a>.
+   This file last modified
+   $Date: 2024/07/31 23:21:04 $ by $Author: bbos $.</address>
+  </footer>
+  <script>hljs.highlightAll();</script>
+ </body>
+</html>
+<!-- Local Variables: -->
+<!-- sgml-basic-offset: 1 -->
+<!-- End: -->
