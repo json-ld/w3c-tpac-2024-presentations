@@ -162,65 +162,14 @@
   </section>
 
   <section class="slide" id="cbor-ld-initial-example">
-   <h2>CBOR-LD - Example</h2>
    <div class="columns">
     <section>
-      <h3>JSON-LD</h3>
-      <pre style="font-size: 10%"><code>{
-  "@context": [
-    "https://www.w3.org/ns/credentials/v2",
-    "https://w3id.org/vc-barcodes/v1",
-    "https://w3id.org/utopia/v2"
-  ],
-  "type": [
-    "VerifiableCredential",
-    "OpticalBarcodeCredential"
-  ],
-  "credentialSubject": {
-    "type": "AamvaDriversLicenseScannableInformation",
-    "protectedComponentIndex": "uggAg"
-  },
-  "issuer": "did:key:...",
-  "credentialStatus": {
-    "type": "TerseBitstringStatusListEntry",
-    "terseStatusListBaseUrl":
-      "https://example.com/statuses/abc/status-lists",
-    "terseStatusListIndex": 3851559041
-  },
-  "proof": {
-    "type": "DataIntegrityProof",
-    "verificationMethod": "did:key:...",
-    "cryptosuite": "ecdsa-xi-2023",
-    "proofPurpose": "assertionMethod",
-    "proofValue": "z4…"
-  }
-}</code></pre>
+      <img width=650 height=320
+      src="./images/vcb_jsonld.png">
     </section>
     <section>
-      <h3>CBOR-LD</h3>
-      <pre style="font-size: 10%"><code>1636(
-  {
-    1: [32768, 32769, 32770],
-    157: [118, 164],
-    184: {
-      156: 166,
-      206: 178,
-      208: 3851559041
-    },
-    186: {
-      156: 160,
-      168: h'...'
-    },
-    190: 170,
-    192: {
-      156: 108,
-      214: 4,
-      224: 230,
-      226: h'...',
-      228: 172
-    }
-  }
-)</code></pre>
+      <img width=650 height=320
+      src="./images/vcb_cborld.png">
     </section>
    </div>
   </section>
