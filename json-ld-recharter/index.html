@@ -105,32 +105,47 @@
   <section class="slide" id="cbor-ld">
     <!-- TODO: Wes to fill in -->
    <h2>CBOR-LD</h2>
+   <h3>A semantic compression format for JSON-LD</h3>
    <p><strong>C</strong>oncise <strong>B</strong>inary <strong>O</strong>bject
     <strong>R</strong>epresentation for <strong>L</strong>inked
     <strong>D</strong>ata</p>
-   <p>Enables small data use cases: QR codes, Web of Things, etc.</p>
-   <ul>
-    <li>Compression ratios up to 40% better than gzip/zlib.</li>
-    <li>Works on any compacted JSON-LD Document.</li>
-    <li>Data Integrity signatures do not need to change.</li>
-    <li>Extensible registry-based codec model.</li>
-    <li>Application-specific codecs.</li>
-    <li>"Practical" set of design trade-offs.</li>
+    <ul>
+      <li>Enables small data use cases: storage, transfer, constrained encoding (e.g. QR codes)</li>
+      <li>Using semantic information from JSON-LD contexts enables powerful compression</li>
+      <li>Extensible registry system for self-describing payloads</li>
+      <li>Plug-and-play with JSON-LD</li>
    </ul>
   </section>
 
   <section class="slide" id="cbor-ld-how">
-   <h2>CBOR-LD - How?</h2>
+   <h2>CBOR-LD Compression</h2>
    <ul>
-    <li>Reduce data duplication</li>
-    <li>Build compression dictionary using <code>@context</code> (maps terms to numbers)
+    <li>Build compression dictionary by processing context files that appear in the JSON-LD
       <ul>
-        <li>Globally linkable, industry-standard dictionary</li>
-        <li>No need to include the dictionary in the data</li>
+        <li>Assign terms in contexts integer values that they will compress to</li>
+        <li>Deterministic algorithms: a 2nd party decompressing the payload will construct the exact same term-to-integer map</li>
       </ul>
     </li>
-   </ul>
+    <li>CBOR-LD Tag registry allows further compression and self-describing payloads
+    </li>
+    <li>Contexts and CBOR tag <strong>are</strong> the compression dictionary: no need to modify the JSON-LD!</li>
+  </ul>
   </section>
+
+  <section class="slide" id="cbor-ld-registry">
+    <h2>CBOR-LD Registry</h2>
+    <ul>
+      <li>CBOR tag: header for CBOR payload</li>
+      <li>CBOR-LD has a <strong>range</strong> of CBOR tags:
+        <ul>
+          <li>Additional precision (optionally) identifies a registry entry</li>
+          <li>Registry entry identifies use case, allows expression of additional compression techniques</li>
+          <li>Decompressor sees the tag, does a registry lookup, retrieves the decompression information</li>
+        </ul>
+      </li>
+      <li>Result: CBOR-LD payloads self-describing, can get additional compression power beyond context terms if use case requires it</li>
+   </ul>
+   </section>
 
   <section class="slide" id="cbor-compression-table">
    <h2>CBOR-LD Compression Table</h2>
@@ -403,7 +418,7 @@ diagnostic:
   </section>
 
   <section class="slide" id="cbor-ld-">
-    <h2>A Verifiable Ccredential Barcode (a PDF417) of the Utopia driver's license.</h2>
+    <h2>A Verifiable Credential Barcode (a PDF417) of the Utopia driver's license.</h2>
     <img src="dl-barcode.png" alt="A PDF417 barcode representation of the CBOR-LD encoded Utopia Driver's License.">
   </section>
 
