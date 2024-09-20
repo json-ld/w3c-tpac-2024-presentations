@@ -281,7 +281,7 @@ Diagnostic:
    </ul>
   </section>
 
-  <section class="slide" id="yaml-ld">
+  <section class="slide" id="yaml-ld-intro">
    <h2>YAML-LD</h2>
    <ul>
     <li>Enable human-friendly Linked Data
@@ -293,6 +293,100 @@ Diagnostic:
     <li>Stable, but needs implementers</li>
     <li>WG picking up to formalize and build test suite</li>
    </ul>
+  </section>
+
+  <section class="slide" id="yaml-ld-example">
+    <h2>YAML-LD Example</h2>
+
+    <!-- ChatGPT: how do I employ highlight.js to highlight the following YAML piece? -->
+    <pre style="font-size: 70%">
+      <code>"@context":
+- https://www.w3.org/ns/credentials/v2
+- https://w3id.org/vc-barcodes/v1
+- https://w3id.org/utopia/v2
+type: [VerifiableCredential, OpticalBarcodeCredential]
+credentialSubject:
+  type: AamvaDriversLicenseScannableInformation
+  protectedComponentIndex: uggAg
+issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj</code>
+    </pre>
+  </section>
+
+  <section class="slide" id="yaml-ld-superset">
+    <p class="shout">YAML ⊋ JSON</p>
+  </section>
+
+  <section class="slide" id="yaml-ld-use-cases-write">
+    <h2>Write YAML-LD</h2>
+
+    <ul>
+      <li>Verifiable Credentials</li>
+      <li>FAIR metadata</li>
+      <li>Nanopublications</li>
+    </ul>
+  </section>
+
+  <section class="slide" id="yaml-ld-use-cases-read">
+    <h2>Read YAML</h2>
+
+    <ul>
+      <li>YAML Frontmatter sections in Markdown files</li>
+      <li><code>dbt</code> models</li>
+      <li><code>k8s</code> & <code>helm</code> configurations</li>
+      <li>CloudFormation code</li>
+      <li>and other YAML configs</li>
+    </ul>
+
+    <p>…interpreting those as Linked Data</p>
+  </section>
+
+  <section class="slide" id="yaml-ld-implementations">
+    <h2>YAML-LD implementations</h2>
+
+    <ul class="with-icons">
+      <li>
+        <img src="images/header-ruby-logo.png" />
+        <a href="https://github.com/ruby-rdf/yaml-ld">
+          ruby-rdf/yaml-ld
+        </a>
+        by <strong>Gregg Kellogg</strong>
+      </li>
+
+      <li>
+        <img src="images/python-logo-only.png" />
+        <a href="https://github.com/iolanta-tech/python-yaml-ld">
+          python-yaml-ld
+        </a>
+        by <strong>Anatoly Scherbakov</strong>
+      </li>
+
+      <li>More implementations wanted!</li>
+    </ul>
+  </section>
+
+  <section class="slide" id="yaml-ld-at">
+    <h3><code>@</code> quoting</h3>
+
+    <ul>
+      <li>JSON-LD keywords use <code>@</code> symbol</li>
+      <li>Which means these keywords have to be quoted in YAML, like <code>"@type"</code></li>
+      <li>We provide a convenience context mapping them to <code>$</code>:</li>
+    </ul>
+
+    <pre style="font-size: 70%"><code>"@context":
+  - https://schema.org/
+  - https://json-ld.org/contexts/dollar-convenience.jsonld
+$type: TechArticle
+name: Introducing YAML-LD</code></pre>
+  </section>
+
+  <section class="slide" id="yaml-ld-roadmap">
+    <h2>YAML-LD: Next Steps</h2>
+
+    <ul>
+      <li>Added to charter</li>
+      <li>Looking forward to implementations!</li>
+    </ul>
   </section>
 
   <section class="slide" id="multiple-languages-in-json">
