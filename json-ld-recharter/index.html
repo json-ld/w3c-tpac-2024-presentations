@@ -63,7 +63,7 @@
    <h2>History - early days</h2>
    <h3>2014 - RDF Working Group</h3>
    <ul>
-    <li><a href="https://www.w3.org/TR/json-ld1/">JSON-LD v1.0</li>
+    <li><a href="https://www.w3.org/TR/json-ld1/">JSON-LD v1.0</a></li>
     <li><a href="https://www.w3.org/TR/json-ld-api1/">JSON-LD API v1.0</a></li>
    </ul>
 
@@ -176,7 +176,7 @@
 
   <section class="slide" id="cbor-ld-utopia-vc">
     <h2>Utopia Driver's License VC</h2>
-    <pre style="font-size: 10%;"><code>{
+    <pre style="font-size: 50%;"><code>{
   "@context": [
     "https://www.w3.org/ns/credentials/v2",
     "https://w3id.org/vc-barcodes/v1",
@@ -216,7 +216,7 @@
 
   <section class="slide" id="cbor-ld-">
     <h2>CBOR-LD parameters</h2>
-    <pre style="font-size: 10%;"><code>registryEntryId: 100
+    <pre style="font-size: 50%;"><code>registryEntryId: 100
 typeTable:
 {
   "context":
@@ -326,7 +326,7 @@ Diagnostic:
     <p>Adapted from <a href="#cbor-ld-utopia-vc">Utopia Driver's License VC</a>.</p>
 
     <pre style="font-size: 70%">
-      <code>"@context":
+      <code class="language-yaml">"@context":
 - https://www.w3.org/ns/credentials/v2
 - https://w3id.org/vc-barcodes/v1
 - https://w3id.org/utopia/v2
@@ -428,7 +428,7 @@ issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj</code>
       <li>We provide a convenience context mapping them to <code>$</code>:</li>
     </ul>
 
-    <pre style="font-size: 70%"><code>"@context":
+    <pre style="font-size: 70%"><code class="language-yaml">"@context":
   - https://schema.org/
   - https://json-ld.org/contexts/dollar-convenience.jsonld
 <span style="color: green">$type</span>: TechArticle
