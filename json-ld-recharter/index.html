@@ -196,6 +196,7 @@
   <a style="font-size: xx-small;" href="https://w3c-ccg.github.io/vc-barcodes/#example-a-json-ld-vc-for-a-utopia-driver-s-license-vcb">
     https://w3c-ccg.github.io/vc-barcodes/#example-a-json-ld-vc-for-a-utopia-driver-s-license-vcb
   </a>
+    <p>See also: <a href="#yaml-ld-example">YAML-LD version</a> of this document.</p>
   </section>
 
   <section class="slide" id="cbor-ld-">
@@ -313,6 +314,7 @@ Diagnostic:
           <li>Unreadable without indentation</li>
           <li>Balancing <code>{</code> and <code>}</code></li>
           <li>Quoting required</li>
+          <li>Multi-line strings difficult</li>
         </ul>
       </section>
     </div>
@@ -321,7 +323,7 @@ Diagnostic:
   <section class="slide" id="yaml-ld-example">
     <h2>YAML-LD Example</h2>
 
-    <p>Adapted from <a href="#cbor-ld-utopia-vc">JSON-LD example</a>.</p>
+    <p>Adapted from <a href="#cbor-ld-utopia-vc">Utopia Driver's License VC</a>.</p>
 
     <pre style="font-size: 70%">
       <code>"@context":
@@ -351,6 +353,8 @@ issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj</code>
       <li><code>{}</code> Braces not required</li>
       <li><code>""</code> Quotes not required</li>
       <li><span>↹</span> Indentation based</li>
+      <li><span>#️⃣</span> Comments</li>
+      <li>Multi line strings</li>
     </ul>
   </section>
 
