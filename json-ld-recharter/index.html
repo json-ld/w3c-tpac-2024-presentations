@@ -408,6 +408,83 @@ name: Introducing YAML-LD</code></pre>
     </ul>
   </section>
 
+  <section class="slide" id="yaml-ld-intro">
+   <h2>JSON-LD Core Specs</h2>
+   <ul>
+    <li>Full support for RDF-star reification and annotation
+      <ul>
+    <li>Builds on <a href="https://json-ld.github.io/json-ld-star/">previous work</a> in CG</li>
+      </ul>
+    </li>
+    <li>Updates rdf:JSON datatype now defined in <a href="https://www.w3.org/TR/rdf12-concepts/#section-json">RDF Concepts</a></li>
+    <li>Addresses community desired features</li>
+   </ul>
+  </section>
+
+  <section class="slide" id="updates-for-rdf-star">
+   <h3>Updating to current RDF-star</h3>
+   <ul>
+    <li>Adds <code>@triple</code>, <code>@reifies</code>, and <code>@annotation</code> keywords.
+      <ul>
+        <li>Triple terms use value of <code>@triple</code>, which should be rarely used in practice.</li>
+        <li>Reified Triples use the <code>@reifies</code> keyword to define an identifier for the associated triple term.</li>
+        <li>Annotations use the <code>@annotation</code> keyword to define a reifier, the related triple term, and add properties to that reifier. Also asserts the triple.</li>
+      </ul>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="reifying-triples">
+   <h3>Reifying Triples</h3>
+   <ul>
+    <li>The <code>@reifies</code> keyword can be used to compact this, and holds the potentially for reifying more than one triple:
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+ "@context": { ... },
+ “@id”: “reifier”,
+ "@reifies": {
+   "@id": "bob",
+   "age": 42
+ },
+ "certainty": 0.8
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:reifier rdf:reifies &lt;&lt;( :bob :age 42 ))>;
+  :certainty: 0.8 .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
+  <section class="slide" id="annotation">
+   <h3>Annotation</h3>
+   <ul>
+    <li>The annotation syntax is similar to Turtle:
+      <table>
+        <tr><th>JSON-LD</th><th>Turtle</th></tr>
+        <tr>
+          <td><pre style="font-size: 10%"><code>{
+ "@context": { ... },
+ "@id": "bob",
+ "age": {
+   "@value": 42,
+   "@annotation": {
+     "@id": "_:anno",
+     "certainty": 0.8
+   }
+ }
+}</code></pre></td>
+          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:bob :age 42 ~ _:anno {| :certainty  8.0E-1 |} .</code></pre></td>
+          </td>
+        </tr>
+      </table>
+    </li>
+   </ul>
+  </section>
+
   <section class="slide final clear cover" id="conclusion">
    <h1>Thanks!</h1>
    from <address>Benjamin Young, Wes Smith, Gregg Kellogg, Anatoly Scherbakov</address>
