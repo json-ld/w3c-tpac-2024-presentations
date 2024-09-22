@@ -9,6 +9,7 @@
   <link rel="stylesheet" href="highlight-js/styles/atom-one-dark.css">
   <script src="highlight-js/highlight.min.js"></script>
   <script src="highlight-js/languages/json.min.js"></script>
+  <script src="highlight-js/languages/yaml.min.js"></script>
   <style>
     /* shut off template <pre> styling */
     .slide pre {
@@ -17,6 +18,10 @@
     }
     .slide pre > code {
       background: #282c34;
+    }
+
+    .highlight-red {
+      color: red !important;
     }
   </style>
   <!-- To use the b6+ framework, include this: -->
@@ -296,54 +301,113 @@ Diagnostic:
    </ul>
   </section>
 
-  <section class="slide" id="yaml-ld-human-readable">
-    <h2>JSON-LD is…</h2>
-
-    <div class="columns">
-      <section>
-        <h3>Ideal for machines</h3>
-        <ul>
-          <li>Read</li>
-          <li>Generate</li>
-          <li>Validate</li>
-        </ul>
-      </section>
-      <section>
-        <h3>Harder for humans</h3>
-        <ul>
-          <li>Unreadable without indentation</li>
-          <li>Balancing <code>{</code> and <code>}</code></li>
-          <li>Quoting required</li>
-          <li>Multi-line strings difficult</li>
-        </ul>
-      </section>
-    </div>
+  <section class="slide" id="yaml-ld-example">
+    <h2>Utopia Driver's License VC<br/><small>in YAML-LD!</small></h2>
+    <pre style="font-size: 40%;"><code class="language-yaml">{
+  "@context": [
+    "https://www.w3.org/ns/credentials/v2",
+    "https://w3id.org/vc-barcodes/v1",
+    "https://w3id.org/utopia/v2"
+  ],
+  "type": [
+    "VerifiableCredential",
+    "OpticalBarcodeCredential"
+  ],
+  "credentialSubject": {
+    "type": "AamvaDriversLicenseScannableInformation",
+    "protectedComponentIndex": "uggAg"
+  },
+  "issuer": "did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj"
+}</code></pre>
+    <p>
+      YAML ⊋ JSON
+      ⇒
+      This is a valid YAML document!
+    </p>
   </section>
 
-  <section class="slide" id="yaml-ld-example">
-    <h2>YAML-LD Example</h2>
+  <section class="slide" id="yaml-ld-curly-braces">
+    <h2>Commas & curly braces</h2>
+    <pre style="font-size: 70%;"><code class="language-yaml">"@context": [
+  "https://www.w3.org/ns/credentials/v2",
+  "https://w3id.org/vc-barcodes/v1",
+  "https://w3id.org/utopia/v2"
+]
+"type": [
+  "VerifiableCredential",
+  "OpticalBarcodeCredential"
+]
+"credentialSubject":
+  "type": "AamvaDriversLicenseScannableInformation"
+  "protectedComponentIndex": "uggAg"
+"issuer": "did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj"
+</code></pre>
+  </section>
 
-    <p>Adapted from <a href="#cbor-ld-utopia-vc">Utopia Driver's License VC</a>.</p>
+  <section class="slide" id="yaml-ld-square-brackets">
+    <h2>Square braces</h2>
+    <pre style="font-size: 75%;"><code class="language-yaml">"@context":
+  - "https://www.w3.org/ns/credentials/v2"
+  - "https://w3id.org/vc-barcodes/v1"
+  - "https://w3id.org/utopia/v2"
+"type": ["VerifiableCredential", "OpticalBarcodeCredential"]
+"credentialSubject":
+  "type": "AamvaDriversLicenseScannableInformation"
+  "protectedComponentIndex": "uggAg"
+"issuer": "did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj"
+</code></pre>
+  </section>
 
-    <pre style="font-size: 70%">
-      <code class="language-yaml">"@context":
-- https://www.w3.org/ns/credentials/v2
-- https://w3id.org/vc-barcodes/v1
-- https://w3id.org/utopia/v2
+  <section class="slide" id="yaml-ld-quotes">
+    <h2>Quotes</h2>
+    <pre style="font-size: 75%;"><code class="language-yaml">"@context":
+  - https://www.w3.org/ns/credentials/v2
+  - https://w3id.org/vc-barcodes/v1
+  - https://w3id.org/utopia/v2
 type: [VerifiableCredential, OpticalBarcodeCredential]
 credentialSubject:
   type: AamvaDriversLicenseScannableInformation
   protectedComponentIndex: uggAg
-issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj</code>
-    </pre>
+issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj
+</code></pre>
   </section>
 
-  <section class="slide" id="yaml-ld-superset">
-    <p class="shout">YAML ⊋ JSON</p>
+  <section class="slide" id="yaml-ld-multiline">
+    <h2>Multiline strings</h2>
+    <pre style="font-size: 80%;"><code class="language-yaml">"@context":
+  - https://www.w3.org/ns/credentials/v2
+  - https://w3id.org/vc-barcodes/v1
+  - https://w3id.org/utopia/v2
+type: [VerifiableCredential, OpticalBarcodeCredential]
+credentialSubject:
+  type: AamvaDriversLicenseScannableInformation
+  protectedComponentIndex: uggAg
+issuer: >-
+  did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj
+</code></pre>
   </section>
 
-  <section class="slide" id="yaml-ld-use-cases-write">
-    <h2>Write YAML-LD</h2>
+
+  <section class="slide" id="yaml-ld-comments">
+    <h2>Comments</h2>
+    <pre style="font-size: 70%;"><code class="language-yaml">"@context":
+  - https://www.w3.org/ns/credentials/v2
+  - https://w3id.org/vc-barcodes/v1
+  - https://w3id.org/utopia/v2
+# This is a Verifiable Credential (VC) renderable as a Barcode
+type: [VerifiableCredential, OpticalBarcodeCredential]
+credentialSubject:
+  # This is a driver's license
+  type: AamvaDriversLicenseScannableInformation
+  protectedComponentIndex: uggAg
+# Here is a Decentralized Identifier (DID) which you can verify
+issuer: >-
+  did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj
+</code></pre>
+  </section>
+
+  <section class="slide" id="yaml-ld-use-cases">
+    <h2>Use cases for YAML-LD</h2>
 
     <ul>
       <li>Verifiable Credentials</li>
