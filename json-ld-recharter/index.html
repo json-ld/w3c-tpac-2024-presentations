@@ -196,6 +196,7 @@
   <a style="font-size: xx-small;" href="https://w3c-ccg.github.io/vc-barcodes/#example-a-json-ld-vc-for-a-utopia-driver-s-license-vcb">
     https://w3c-ccg.github.io/vc-barcodes/#example-a-json-ld-vc-for-a-utopia-driver-s-license-vcb
   </a>
+    <p>See also: <a href="#yaml-ld-example">YAML-LD version</a> of this document.</p>
   </section>
 
   <section class="slide" id="cbor-ld-">
@@ -295,10 +296,35 @@ Diagnostic:
    </ul>
   </section>
 
+  <section class="slide" id="yaml-ld-human-readable">
+    <h2>JSON-LD is…</h2>
+
+    <div class="columns">
+      <section>
+        <h3>Ideal for machines</h3>
+        <ul>
+          <li>Read</li>
+          <li>Generate</li>
+          <li>Validate</li>
+        </ul>
+      </section>
+      <section>
+        <h3>Harder for humans</h3>
+        <ul>
+          <li>Unreadable without indentation</li>
+          <li>Balancing <code>{</code> and <code>}</code></li>
+          <li>Quoting required</li>
+          <li>Multi-line strings difficult</li>
+        </ul>
+      </section>
+    </div>
+  </section>
+
   <section class="slide" id="yaml-ld-example">
     <h2>YAML-LD Example</h2>
 
-    <!-- ChatGPT: how do I employ highlight.js to highlight the following YAML piece? -->
+    <p>Adapted from <a href="#cbor-ld-utopia-vc">Utopia Driver's License VC</a>.</p>
+
     <pre style="font-size: 70%">
       <code>"@context":
 - https://www.w3.org/ns/credentials/v2
@@ -313,28 +339,57 @@ issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj</code>
   </section>
 
   <section class="slide" id="yaml-ld-superset">
-    <p class="shout">YAML ⊋ JSON</p>
+    <h2>YAML</h2>
+
+    <ul>
+      <li>
+        <strong>Y</strong>et
+        <strong>A</strong>nother
+        <strong>M</strong>arkup
+        <strong>L</strong>anguage
+      </li>
+      <li><span>⊋</span> JSON</li>
+      <li>Widely used across the industry</li>
+      <li><code>{}</code> Braces not required</li>
+      <li><code>""</code> Quotes not required</li>
+      <li><span>↹</span> Indentation based</li>
+      <li><span>#️⃣</span> Comments</li>
+      <li>Multi line strings</li>
+    </ul>
   </section>
 
   <section class="slide" id="yaml-ld-use-cases-write">
     <h2>Write YAML-LD</h2>
 
     <ul>
-      <li>Verifiable Credentials</li>
-      <li>FAIR metadata</li>
-      <li>Nanopublications</li>
+      <li>JSON-LD Contexts</li>
+      <li>
+        <a href="https://www.w3.org/TR/vc-data-model-2.0/">
+          Verifiable Credentials
+        </a>
+      </li>
+      <li>
+        <a href="https://www.go-fair.org/">FAIR</a> metadata
+        <ul class="with-icons">
+          <li>
+            <span>∋</span>
+            <a href="https://nanopub.net/">Nanopublications</a>
+          </li>
+        </ul>
+      </li>
+      <li>Ontologies</li>
     </ul>
   </section>
 
   <section class="slide" id="yaml-ld-use-cases-read">
-    <h2>Read YAML</h2>
+    <h2>Read YAML as YAML-LD</h2>
 
     <ul>
       <li>YAML Frontmatter sections in Markdown files</li>
       <li><code>dbt</code> models</li>
       <li><code>k8s</code> & <code>helm</code> configurations</li>
       <li>CloudFormation code</li>
-      <li>and other YAML configs</li>
+      <li>and more</li>
     </ul>
 
     <p>…interpreting those as Linked Data</p>
@@ -376,7 +431,7 @@ issuer: did:key:zDnaeWjKfs1ob9QcgasjYSPEMkwq31hmvSAWPVAgnrt1e9GKj</code>
     <pre style="font-size: 70%"><code>"@context":
   - https://schema.org/
   - https://json-ld.org/contexts/dollar-convenience.jsonld
-$type: TechArticle
+<span style="color: green">$type</span>: TechArticle
 name: Introducing YAML-LD</code></pre>
   </section>
 
@@ -384,8 +439,23 @@ name: Introducing YAML-LD</code></pre>
     <h2>YAML-LD: Next Steps</h2>
 
     <ul>
-      <li>Added to charter</li>
+      <li>Review test suite</li>
       <li>Looking forward to implementations!</li>
+    </ul>
+
+    <h3>Perspectives</h3>
+
+    <ul>
+      <li>
+        YAML tags
+        <ul>
+          <li>datatypes</li>
+          <li>language tags</li>
+        </ul>
+      </li>
+      <li>
+        <code>{"non-string": "can be a key"}: "for JSON-LD-Star"</code>
+      </li>
     </ul>
   </section>
 
