@@ -73,26 +73,16 @@
    <h3>CG Draft – Quoted Triples</h3>
    <ul>
     <li>Used structured <code>@id</code> value for Quoted Triple.
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
+      <pre style="font-size: 70%"><code>{
   "@context": {
     "@base": "http://example.org/",
     "@vocab": "http://example.org/"
   },
   "@id": {"@id": "bob", "age": 42},
   "certainty": 0.8
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
-&lt;&lt; :bob :age 42 &gt;&gt; :certainty 0.8e0 .</code></pre></td>
-        </tr>
-      </table>
-    </li>
-    <li>Notes
-      <ul>
-        <li>Significant complication of the JSON-LD model</li>
-      </ul>
+}</code></pre>
+<pre style="font-size: 70%"><code>PREFIX : &lt;http://example.org/&gt;
+&lt;&lt; :bob :age 42 &gt;&gt; :certainty 0.8e0 .</code></pre>
     </li>
    </ul>
   </section>
@@ -101,26 +91,16 @@
    <h3>CG Draft – Annotations</h3>
    <ul>
     <li>Used structured <code>@annotation</code> value for annotations.
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
-  "@context": {
-    "@base": "http://example.org/",
-    "@vocab": "http://example.org/"
-  },
+      <pre style="font-size: 70%"><code>{
+  "@context": {...},
   "@id": "bob",
   "age": {
     "@value": 42,
     "@annotation": {"certainty": 0.8}
   }
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
-:bob :age 42 .
-&lt;&lt; :bob :age 42 &gt;&gt; :certainty 0.8e0 .</code></pre></td>
-          </td>
-        </tr>
-      </table>
+}</code></pre>
+<pre style="font-size: 70%"><code>:bob :age 42 .
+&lt;&lt; :bob :age 42 &gt;&gt; :certainty 0.8e0 .</code></pre>
     </li>
    </ul>
   </section>
@@ -129,14 +109,9 @@
    <h3>CG Draft – Reverse Reification</h3>
    <ul>
     <li>Reverse terms invert the s/o relationship.
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
+      <pre style="font-size: 70%"><code>{
   "@context": {
-    "@base": "http://example.org/",
-    "@vocab": "http://example.org/",
-    "knows": {"@type": "@id"},
+    ...
     "claimedBy": {
       "@reverse": "http://example.org/claims",
       "@type": "@id"
@@ -144,12 +119,9 @@
   },
   "@id": {"@id": "bob", "knows": "alice"},
   "claimedBy": "alice"
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
-:alice :claims &lt;&lt; :bob :knows :alice >> .</code></pre></td>
-          </td>
-        </tr>
-      </table>
+}</code></pre>
+<pre style="font-size: 70%"><code>PREFIX : &lt;http://example.org/&gt;
+:alice :claims &lt;&lt; :bob :knows :alice >> .</code></pre>
     </li>
    </ul>
   </section>
@@ -158,29 +130,18 @@
    <h3>CG Draft – Reversed Annotation</h3>
    <ul>
     <li>Allows annotating quoted triple as an object.
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
-  "@context": {
-    ...
-  },
+      <pre style="font-size: 70%"><code>{
+  "@context": {...},
   "@id": "bob",
   "knows": {
     "@id": "alice",
-    "@annotation": {
-      "accordingTo": "alice",
-      "claimedBy": "bob"
-    }
+    "@annotation": {"accordingTo": "alice", "claimedBy": "bob"}
   }
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>PREFIX : &lt;http://example.org/&gt;
+}</code></pre>
+<pre style="font-size: 70%"><code>PREFIX : &lt;http://example.org/&gt;
 :bob :knows :alice .
 &lt;&lt; :bob :knows :alice &gt;&gt; :accordingTo :alice .
-:bob :claims &lt;&lt; :bob :knows :alice &gt;&gt; .</code></pre></td>
-          </td>
-        </tr>
-      </table>
+:bob :claims &lt;&lt; :bob :knows :alice &gt;&gt; .</code></pre>
     </li>
    </ul>
   </section>
@@ -211,24 +172,15 @@
    <h3>Triple Terms</h3>
    <ul>
     <li>At the most fundamental level, <code>@triple</code> is intended to encode a single triple with an @id and a single-valued property.
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
+      <pre style="font-size: 70%"><code>{
  "@context": {...},
  "rdf:reifies": {
-   "@triple": {
-     "@id": "bob",
-     "age": 42
-   }
+   "@triple": {"@id": "bob", "age": 42}
  },
  "certainty": 0.8
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>_:b0 rdf:reifies &lt;&lt;( :bob :age 42 ))&gt; ;
-     :certainty: 0.8 .</code></pre></td>
-          </td>
-        </tr>
-      </table>
+}</code></pre>
+<pre style="font-size: 70%"><code>_:b0 rdf:reifies &lt;&lt;( :bob :age 42 ))&gt; ;
+     :certainty: 0.8 .</code></pre>
     </li>
 </li>
    </ul>
@@ -238,23 +190,14 @@
    <h3>Reifying Triples</h3>
    <ul>
     <li>The <code>@reifies</code> keyword can be used to compact this, and holds the potentially for reifying more than one triple:
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
+      <pre style="font-size: 70%"><code>{
  "@context": { ... },
  “@id”: “reifier”,
- "@reifies": {
-   "@id": "bob",
-   "age": 42
- },
+ "@reifies": {"@id": "bob", "age": 42},
  "certainty": 0.8
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:reifier rdf:reifies &lt;&lt;( :bob :age 42 ))>;
-  :certainty: 0.8 .</code></pre></td>
-          </td>
-        </tr>
-      </table>
+}</code></pre>
+<pre style="font-size: 70%"><code>:reifier rdf:reifies &lt;&lt;( :bob :age 42 ))>;
+  :certainty: 0.8 .</code></pre>
     </li>
    </ul>
   </section>
@@ -263,10 +206,7 @@
    <h3>Annotation</h3>
    <ul>
     <li>The annotation syntax is similar to Turtle:
-      <table>
-        <tr><th>JSON-LD</th><th>Turtle</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
+      <pre style="font-size: 70%"><code>{
  "@context": { ... },
  "@id": "bob",
  "age": {
@@ -276,11 +216,8 @@
      "certainty": 0.8
    }
  }
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:bob :age 42 ~ _:anno {| :certainty  8.0E-1 |} .</code></pre></td>
-          </td>
-        </tr>
-      </table>
+}</code></pre>
+<pre style="font-size: 70%"><code>:bob :age 42 ~ _:anno {| :certainty  8.0E-1 |} .</code></pre>
     </li>
    </ul>
   </section>
@@ -289,26 +226,14 @@
    <h3>Reification as alternative to Named Graph</h3>
    <ul>
     <li>Note that in the Reification example, the @refiies keyword acts much like <code>@graph</code>. If it were restated as follows, it would use the named graph syntax, which is common in Verifiable Claims.
-      <table>
-        <tr><th>JSON-LD</th><th>TriG</th></tr>
-        <tr>
-          <td><pre style="font-size: 10%"><code>{
+      <pre style="font-size: 70%"><code>{
  "@context": { ... },
  "@id": "reifier",
- "@graph": {
-   "@id": "bob",
-   "age": 42
- },
+ "@graph": {"@id": "bob", "age": 42},
  "certainty": 0.8
-}</code></pre></td>
-          <td style="vertical-align: top"><pre style="font-size: 10%"><code>:reifier :certainty 8.0E-1 .
-
-:reifier {
- :bob :age 42 .
-}</code></pre></td>
-          </td>
-        </tr>
-      </table>
+}</code></pre>
+<pre style="font-size: 70%"><code>:reifier :certainty 8.0E-1 .
+:reifier {:bob :age 42 .}</code></pre>
     </li>
    </ul>
   </section>
